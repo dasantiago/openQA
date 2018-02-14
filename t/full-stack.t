@@ -217,7 +217,12 @@ sub wait_for_result_panel {
     }
     javascript_console_has_no_warnings_or_errors;
     $driver->refresh();
-    like($driver->find_element('#result-row .panel-body')->get_text(), $result_panel, $desc);
+    my $s = like($driver->find_element('#result-row .panel-body')->get_text(), $result_panel, $desc);
+    unless ($s) {
+        if (-e path($resultdir, '00000', "00000001-$job_name")->make_path->child('autoinst-log.txt')) {
+            STDERR->printflush(path($resultdir, '00000', "00000001-$job_name", 'autoinst-log.txt')->slurp);
+        }
+    }
 }
 
 sub wait_for_job_running {

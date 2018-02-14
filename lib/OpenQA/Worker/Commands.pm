@@ -40,7 +40,7 @@ sub websocket_commands {
             log_warning('Received WS message without type! ' . pp($json));
             return;
         }
-        my $type  = $json->{type};
+        my $type = $json->{type};
         my $jobid = $json->{jobid} // '';
         my $joburl;
         my $host = $ws_to_host->{$tx};
@@ -182,10 +182,6 @@ sub websocket_commands {
                 $job_in_progress = 0;
                 $check_job_running->{$host} = 0;
             }
-        }
-        elsif ($type eq 'incompatible') {
-            log_error("The worker is running an incompatible version");
-            Mojo::IOLoop->singleton->stop_gracefully;
         }
         else {
             log_error("got unknown command $type");

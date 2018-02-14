@@ -651,8 +651,8 @@ sub job_grab {
                     # Depending on job_n:
                     # Get first n results, first result or all of them.
                     @jobs = $job_n > 0 ? $search->slice(0, $job_n) : $job_n == 0 ? $search->all() : ($search->first());
-
                     $worker = _job_allocate($jobs[0]->id, $worker->id(), OpenQA::Schema::Result::Jobs::RUNNING)
+
                       if ($allocate && $jobs[0]);
 
                 });

@@ -38,9 +38,9 @@ sub asset {
 
     my $uri = "jobs/$job_id";
     $opts->{asset} //= 'public';
-    my $file_name  = (!$opts->{name}) ? path($opts->{file})->basename : $opts->{name};
+    my $file_name = (!$opts->{name}) ? path($opts->{file})->basename : $opts->{name};
     my $chunk_size = $opts->{chunk_size} // 1000000;
-    my $pieces     = OpenQA::File->new(file => Mojo::File->new($opts->{file}))->split($chunk_size);
+    my $pieces = OpenQA::File->new(file => Mojo::File->new($opts->{file}))->split($chunk_size);
     $self->emit('upload_chunk.prepare' => $pieces);
 
     $self->once('upload_chunk.error' =>

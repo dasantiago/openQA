@@ -31,6 +31,7 @@ use Mojo::URL;
 use OpenQA::Test::Case;
 use OpenQA::Client;
 use OpenQA::WebSockets;
+use OpenQA::WebSockets::Server 'INTERFACE_VERSION';
 use OpenQA::Scheduler;
 
 # create Test DBus bus and service for fake WebSockets and Scheduler call
@@ -121,6 +122,7 @@ my $worker_caps = {
 $ret = $t->post_ok('/api/v1/workers', form => $worker_caps);
 is($ret->tx->res->code, 400, "worker with missing parameters refused");
 
+
 $worker_caps->{cpu_arch} = 'foo';
 $ret = $t->post_ok('/api/v1/workers', form => $worker_caps);
 is($ret->tx->res->code, 400, "worker with missing parameters refused");
@@ -130,6 +132,10 @@ $ret = $t->post_ok('/api/v1/workers', form => $worker_caps);
 is($ret->tx->res->code, 400, "worker with missing parameters refused");
 
 $worker_caps->{worker_class} = 'bar';
+
+$ret = $t->post_ok('/api/v1/workers', form => $worker_caps);
+is($ret->tx->res->code, 426, "worker informed to upgrade");
+$worker_caps->{websocket_api_version} = INTERFACE_VERSION;
 
 $ret = $t->post_ok('/api/v1/workers', form => $worker_caps);
 is($ret->tx->res->code,       200, "register existing worker with token");

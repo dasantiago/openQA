@@ -35,6 +35,7 @@ use OpenQA::Scheduler::Scheduler 'job_grab';
 use OpenQA::Resource::Jobs 'job_restart';
 use OpenQA::WebAPI::Controller::API::V1::Worker;
 use OpenQA::WebSockets;
+use OpenQA::WebSockets::Server 'INTERFACE_VERSION';
 use OpenQA::Test::Database;
 use OpenQA::Utils;
 
@@ -61,11 +62,13 @@ my %settings = (
 );
 
 my $workercaps = {
-    cpu_modelname => 'Rainbow CPU',
-    cpu_arch      => 'x86_64',
-    cpu_opmode    => '32-bit, 64-bit',
-    mem_max       => '4096',
-    WORKER_CLASS  => 'testAworker',
+    cpu_modelname               => 'Rainbow CPU',
+    cpu_arch                    => 'x86_64',
+    cpu_opmode                  => '32-bit, 64-bit',
+    mem_max                     => '4096',
+    WORKER_CLASS                => 'testAworker',
+    websocket_api_version       => INTERFACE_VERSION,
+    isotovide_interface_version => INTERFACE_VERSION
 };
 
 my $jobA   = $schema->resultset('Jobs')->create_from_settings(\%settings);

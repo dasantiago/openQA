@@ -1,4 +1,4 @@
-requires 'Archive::Extract';
+requires 'Archive::Extract', '> 0.7';
 requires 'BSD::Resource';
 requires 'CSS::Minifier::XS', '>= 0.01';
 requires 'Carp';
@@ -91,7 +91,7 @@ requires 'POSIX';
 
 on 'test' => sub {
   requires 'Perl::Critic';
-  requires 'Perl::Tidy', '>= 20171214';
+  requires 'Perl::Tidy', '>= 20171214, <20180219';
   requires 'Selenium::Remote::Driver', '>= 1.23';
   requires 'Test::Compile';
   requires 'Test::Fatal';

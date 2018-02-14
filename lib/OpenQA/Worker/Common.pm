@@ -341,10 +341,7 @@ sub send_status {
 
     my $status_message = {
         json => {
-            type                         => 'worker_status',
-            websocket_api_version        => INTERFACE_VERSION,
-            isotovideo_interface_version => $isotovideo_interface_version
-
+            type => 'worker_status',
         }};
 
     if (defined $job && ref($job) eq "HASH" && exists $job->{id}) {
@@ -460,9 +457,11 @@ sub register_worker {
     die unless $host;
     $hosts->{$host}{accepting_jobs} = 0;
 
-    $worker_caps             = _get_capabilities;
-    $worker_caps->{host}     = $hostname;
-    $worker_caps->{instance} = $instance;
+    $worker_caps                                 = _get_capabilities;
+    $worker_caps->{host}                         = $hostname;
+    $worker_caps->{instance}                     = $instance;
+    $worker_caps->{websocket_api_version}        = INTERFACE_VERSION;
+    $worker_caps->{isotovideo_interface_version} = $isotovideo_interface_version;
     if ($worker_settings->{WORKER_CLASS}) {
         $worker_caps->{worker_class} = $worker_settings->{WORKER_CLASS};
     }
